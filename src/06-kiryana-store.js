@@ -52,20 +52,65 @@
  */
 export function getItemNames(items) {
   // Your code here
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  return items.map(function(item) {
+    return item.name;
+  });
 }
 
 export function getAffordableItems(items, maxPrice) {
   // Your code here
+    if (!Array.isArray(items) || typeof maxPrice !== "number") {
+    return [];
+  }
+
+  return items.filter(function(item) {
+    return typeof item.price === "number" && item.price <= maxPrice;
+  });
 }
 
 export function calculateTotal(items) {
   // Your code here
+    if (!Array.isArray(items) || items.length === 0) {
+    return 0;
+  }
+
+  return items.reduce(function(total, item) {
+    if (typeof item.price === "number" && typeof item.qty === "number") {
+      return total + (item.price * item.qty);
+    }
+    return total;
+  }, 0);
 }
 
 export function sortByPrice(items, ascending) {
   // Your code here
+   if (!Array.isArray(items)) {
+    return [];
+  }
+
+  return [...items].sort(function(a, b) {
+    if (ascending) {
+      return a.price - b.price;
+    } else {
+      return b.price - a.price;
+    }
+  });
 }
 
 export function formatBill(items) {
   // Your code here
+    if (!Array.isArray(items) || items.length === 0) {
+    return "";
+  }
+
+  return items
+    .map(function(item) {
+      const total = item.price * item.qty;
+      return `${item.name} x ${item.qty} = Rs.${total}`;
+    })
+    .join("\n");
 }
